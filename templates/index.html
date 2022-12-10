@@ -22,7 +22,7 @@
         }
         body{
 
-            /*backdrop-filter: blur(5px) brightness(200%);*/
+
 
             height: 100%;
             width: 100%;
@@ -66,6 +66,8 @@
             padding: 20px;
             box-shadow: 0px 0px 10px 0px slategrey;
             margin: 20px auto;
+            display: flex;
+            flex-direction: column-reverse;
         }
         .myreview {
             display: flex;
@@ -94,9 +96,7 @@
             margin-bottom: 0px;
             color: white;
         }
-        .mybox > li > h2.done {
-            text-decoration:line-through
-        }
+
         .review_img {
             background-color: transparent;
             background-size: cover;
@@ -144,13 +144,16 @@
                         let review = rows[i]['review']
                         let num = rows[i]['num']
                         let done = rows[i]['done']
+                        if (done == 0) {
 
-                        let temp_html = `
-                            <li>
-                                <h2>${review}</h2>
-                                <button onclick="done_review(${num})" type="button" class="btn btn-warning">수정</button>
-                                <button onclick="cancel_review(${num})" type="button" class="btn btn-danger">삭제</button>
-                            </li>`
+                            temp_html = `<li>
+                                            <h2>${review}</h2>
+                                            <button onclick="cancel_review(${num})" type="button" class="btn btn-danger">삭제</button>
+                                        </li>`
+                        } else {
+                            temp_html = ``
+
+                        }
 
 
 
@@ -177,10 +180,11 @@
             });
         }
 
-        function done_review(num) {
+
+        function cancel_review(num) {
             $.ajax({
                 type: "POST",
-                url: "/review/done",
+                url: "/review/cancel",
                 data: {num_give: num},
                 success: function (response) {
                     alert(response["msg"])
@@ -188,18 +192,6 @@
                 }
             });
         }
-        function cancel_review(num) {
-            $.ajax({
-                type: "POST",
-                url: "/review/cancel",
-                data: {num_give: num },
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.reload()
-                }
-            });
-        }
-
 
 
 
