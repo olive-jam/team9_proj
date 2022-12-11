@@ -12,7 +12,8 @@ db = client.test
 @app.route('/')
 def home():
     return render_template('index.html')
-
+@app.route('/wewe')
+dfkjlsjfklejsfkl
 
 @app.route("/review", methods=["POST"])
 def review_post():
