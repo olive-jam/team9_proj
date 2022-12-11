@@ -12,7 +12,8 @@ db = client.test
 @app.route('/')
 def home():
     return render_template('index.html')
-
+@app.route('/wewe')
+dfkjlsjfklejsfkl
 
 @app.route("/review", methods=["POST"])
 def review_post():
@@ -38,31 +39,22 @@ def review_post():
 def review_done():
     num_receive = request.form['num_give']
     db.review.update_one({'num':int(num_receive)},{'$set':{'done':1}})
-    return jsonify({'msg': '✏️ 수정완료'})
-
-
-
-
-
+    return jsonify({'msg': '✏️ 등록완료'})
 
 
 
 @app.route("/review/cancel", methods=["POST"])
-def review_cancel():
+def cancel_review():
     num_receive = request.form['num_give']
-    db.review.update_one({'num': int(num_receive)},{'$set':{'done':0}})
+    db.review.delete_one({'num':int(num_receive)})
     return jsonify({'msg': '☠️ 삭제완료'})
 
-# @app.route("/review/cancel", methods=["POST"])
-# def review_cancel():
-#     num_receive = request.form['num_give']
-#     db.review.update_one({'num': int(num_receive)},{'$set':{'done':0}})
-#     return jsonify({'msg': ''})
 
 
 @app.route("/review", methods=["GET"])
 def review_get():
     review_list = list(db.review.find({},{'_id':False}))
+
 
     return jsonify({'reviews': review_list})
 
